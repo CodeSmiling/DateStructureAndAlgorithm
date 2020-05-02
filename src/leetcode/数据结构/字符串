@@ -1,0 +1,31 @@
+1.无重复字符的最长的子串
+Q:给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+  示例一：
+  输入: "abcabcbb"
+  输出: 3 
+  解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3
+A:使用滑动窗口:左指针固定，右指针移动，移动过程使用hashset判断是否重复。
+  如果不重复则set集合中添加一个元素，右指针移动一位，否则set集合中删除重复元素，左指针移动一位
+代码:
+
+```
+public static int lengthOfLongestSubstring(String s) {
+        //判断是否重复的set集合
+        Set<Character> set1=new HashSet<>();
+        //存储左边界，右边界，结果集
+        int left=0;int right=0;int ans=0;
+        //存储字符串长度
+        int length=s.length();
+        while(left<length&&right<length){
+            if(!set1.contains(s.charAt(right))){
+                set1.add(s.charAt(right));
+                right++;
+            }else {
+                set1.remove(s.charAt(left));
+                left++;
+            }
+            ans=Math.max(ans,set1.size());
+        }
+        return ans;
+    }
+```   
