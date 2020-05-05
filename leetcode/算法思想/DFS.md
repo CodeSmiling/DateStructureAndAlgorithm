@@ -3,7 +3,7 @@
 ## 目录
 
 * [验证二叉搜索树](#验证二叉搜索树)
-
+* [二叉树的镜像](#二叉树的镜像)
 
 ---
 
@@ -34,6 +34,21 @@ A:采用深度优先遍历，先验证当前的条件，之后在进行下一步
         if(!helper(root.left,lower,val)) return false;
         if(!helper(root.right,val,upper)) return false;
         return true;
+    }
+```
+
+---
+### 二叉树的镜像
+
+```java
+  public TreeNode mirrorTree(TreeNode root) {
+        if(root==null) return null;
+        //遍历当前节点的操作
+        TreeNode temp=root.left;
+        root.left=mirrorTree(root.right);
+        root.right=mirrorTree(temp);
+
+        return root;
     }
 ```
  
