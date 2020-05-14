@@ -3,7 +3,7 @@
 ## 目录
 
 * [二叉树的镜像](#二叉树的镜像)
-
+* [从上到下打印二叉树](#从上到下打印二叉树)
 
 ---
 
@@ -30,3 +30,38 @@
         return root;
     }
  ```
+---
+### 从上到下打印二叉树
+Q:从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+例如:
+给定二叉树: [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+A:采用广度遍历的策略
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> resList=new ArrayList<>();
+        //采用广度遍历策略
+        if(root==null) return resList;
+        Queue<TreeNode> queue=new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()){
+            List<Integer> tempList=new ArrayList<>();
+            //此时队列是不断变化的
+            for(int i=queue.size();i>0;i--){
+                TreeNode node=queue.poll();
+                tempList.add(node.val);
+                if(node.left!=null) queue.add(node.left);
+                if(node.right!=null) queue.add(node.right);
+            }
+            resList.add(tempList);
+        }
+        return resList;
+    }
+}
+```
