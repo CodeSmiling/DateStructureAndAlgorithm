@@ -6,6 +6,7 @@
 * [对称的二叉树](#对称的二叉树)
 * [矩阵中的路径](#矩阵中的路径)
 * [树的子结构](#树的子结构)
+* [二叉搜索树与双向链表](#二叉搜索树与双向链表)
 ---
 ### 二叉树的镜像
 Q:请完成一个函数，输入一个二叉树，该函数输出它的镜像。
@@ -75,3 +76,35 @@ A:使用深度遍历和剪枝算法：
         return res;
 
   ```
+Q:题目链接：https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/
+  
+A:1.根据题意，需要知道二叉树前后顺序，所以考虑中序遍历。
+    2.中序遍历之后，需要改变两个节点的连接顺序
+ ```java
+ class Solution{
+    Node pre,cur head;
+    public Node treeToDoublyList(Node root){
+        if(toot==null) return null;
+        dfs(root);
+        //首尾相连
+        head.left=pre;
+        pre.right=head;
+        return head
+    }
+    void dfs(Node cur){
+        if(cur==null) return ;
+
+        //中序遍历
+        dfs(cur.left);
+        if(pre!=null) pre.right=cur;
+        else head=cur;
+        //单向连接
+        cur.left=pre;
+        //保存当前节点
+        pre=cur;
+        dfs(cur.right);    
+    }
+}
+
+ ```
+  
