@@ -4,6 +4,7 @@
 
 * [二叉树的镜像](#二叉树的镜像)
 * [从上到下打印二叉树](#从上到下打印二叉树)
+* [从上到下打印二叉树II](#从上到下打印二叉树II)
 
 ---
 
@@ -31,7 +32,7 @@
     }
  ```
 ---
-### 从上到下打印二叉树 II
+### 从上到下打印二叉树
 问题描述:从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
 例如:
 
@@ -71,6 +72,58 @@ class Solution{
             }
         }
         return resList.toArray(new int[resList.size()]);
+    }
+}
+```
+### 从上到下打印二叉树II
+
+问题描述:从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+例如:
+
+给定二叉树: [3,9,20,null,null,15,7],
+
+           3
+          / \
+         9  20
+           /  \
+          15   7
+返回其层次遍历结果：
+
+[
+  [3],
+  [9,20],
+  [15,7]
+]       
+
+题目链接：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/
+
+```java
+class Solution{
+    public List<List<Integer>> levelOrder(TreeNode root){
+        List<List<Integer>> resList = new ArrayList<>();
+        if(root == null){
+            return resList;
+        }
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+        while(deque.size() != 0){
+            int size = deque.size();
+            //建立一个队列存储返回结果
+            List<Integer> tempList = new ArrayList<>();
+            //遍历每一层的结果
+            for(int i = 0; i < size; i++){
+             TreeNode node = deque.poll();
+                tempList.add(node.val);
+                if(node.left != null){
+                    deque.push(node.left);
+                }
+                if(node.right != null){
+                    deque.push(node.right);
+                }
+            }           
+            resList.add(tempList);
+        }
+        return resList;
     }
 }
 ```
