@@ -31,8 +31,8 @@
     }
  ```
 ---
-### 从上到下打印二叉树
-Q:从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+### 从上到下打印二叉树 II
+问题描述:从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
 例如:
 
 给定二叉树: [3,9,20,null,null,15,7],
@@ -42,27 +42,35 @@ Q:从上到下按层打印二叉树，同一层的节点按从左到右的顺序
          9  20
            /  \
           15   7
-A:采用广度遍历的策略
+返回：
+
+[3,9,20,15,7] 
+
+题目链接：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/
+
+解决方案:采用广度遍历的策略
 ```java
-class Solution {
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> resList=new ArrayList<>();
-        //采用广度遍历策略
-        if(root==null) return resList;
-        Queue<TreeNode> queue=new LinkedList<>();
-        queue.add(root);
-        while(!queue.isEmpty()){
-            List<Integer> tempList=new ArrayList<>();
-            //此时队列是不断变化的
-            for(int i=queue.size();i>0;i--){
-                TreeNode node=queue.poll();
-                tempList.add(node.val);
-                if(node.left!=null) queue.add(node.left);
-                if(node.right!=null) queue.add(node.right);
-            }
-            resList.add(tempList);
+class Solution{
+    public int[] levelOrder(TreeNode root){
+        if(root == null){
+            return new int[0];
         }
-        return resList;
+        //使用辅助栈
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        List<Integer> resList = new ArrayList<>();
+        //使用辅助栈或者是队列的时候需要判断是否为空
+        while(queue.size() != 0){
+            TreeNode node = queue.poll();
+            resList.add(node.val);
+            if(node.left != null){
+                queue.addLast(node.left);
+            }
+            if(node.right != null){
+                queue.addLast(node.right);
+            }
+        }
+        return resList.toArray(new int[resList.size()]);
     }
 }
 ```
