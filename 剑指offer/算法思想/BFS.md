@@ -5,6 +5,7 @@
 * [二叉树的镜像](#二叉树的镜像)
 * [从上到下打印二叉树](#从上到下打印二叉树)
 * [从上到下打印二叉树II](#从上到下打印二叉树II)
+* [从上到下打印二叉树III](#从上到下打印二叉树III)
 
 ---
 
@@ -122,6 +123,79 @@ class Solution{
                 }
             }           
             resList.add(tempList);
+        }
+        return resList;
+    }
+}
+```
+### 从上到下打印二叉树III
+
+问题描述:从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+例如:
+
+给定二叉树: [3,9,20,null,null,15,7],
+
+           3
+          / \
+         9  20
+           /  \
+          15   7
+返回其层次遍历结果：
+
+[
+  [3],
+  [20,9],
+  [15,7]
+]
+
+题目链接：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/
+
+```java
+class Solution{
+    public List<List<Integer>> levelOrder(TreeNode root){
+        List<List<Integer>> resList = new ArrayList<>();
+        if(root == null){
+            return resList;
+        }
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+        while(deque.size() != 0){
+            //表名此时为奇数行
+            boolean flag = false;
+            List<Integer> tList = new ArrayList<>();
+            //如果此时是奇数行
+            if(!flag){
+                for(int i = deque.size(); i > 0; i--){
+                    TreeNode node = deque.removeFirst();
+                    tList.add(node.val);
+                    //从右到左加入双端队列(左右节点加入双端队列末尾)
+                    if(node.left != null){
+                        queue.addLast(node.left);
+                    }
+                    if(node.right != null){
+                        queue.addLast(node.right);
+                    }               
+                }
+                flag = true;
+                resList.add(tList);
+            }
+            else{
+                tList = new ArrayList<>();
+                for(int i = deque.size(); i > 0; i--){
+                    //从右到左取出双端队列
+                    TreeNode node = deque.removeLast();
+                    tList.add(node.val);
+                    //从左到右加入双端队列(此时需要先将右边节点加入，再将左边节点加入双端队列前端)
+                    if(node.right != null){
+                        queue.addFirst(node.right);
+                    }   
+                    if(node.left != null){
+                        queue.addFirst(node.left);
+                    }             
+                }
+                flag = false;
+                resList.add(tList);
+            }
         }
         return resList;
     }
