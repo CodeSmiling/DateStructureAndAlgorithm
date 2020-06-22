@@ -125,6 +125,49 @@ A:使用深度遍历和剪枝算法：
 }
   ```
   
+解决方案:方案二:采用广度优先遍历(迭代)
+
+  迭代流程
+    (1)将元素从队列中取出
+    
+    (2)判断是否越界,横纵坐标和超过k,continue;
+    
+    (3)标记当前单元格,符合条件res++;
+    
+    (4)入队
+
+```java
+class Solution{
+    public int movingCount(int m, int n, int k){
+        boolean[][] visit;
+        int res = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{0,0,0,0});
+        while(!queue.isEmpty()){
+            //取出数组
+            int[] x = queue.poll();
+            int i = x[0], j = x[1], si = x[2], sj = x[3];
+            if(i >= m || j >=  n || si + sj > k) continue;
+            visit[i][j] = true;
+            res++;
+            queue.add(new int[]{i + 1, j, sum(i + 1), sum(j)});
+            queue.add(new int[]{i, j + 1, sum(i), sum(j + 1)}); 
+        }
+    }
+    public int sum(int i){
+        int sumOfNum = 0;
+        while(i > 0){
+            sumOfNum += i % 10;
+            i /= 10;
+        }
+        return sumOfNum;
+    }    
+}
+```
+    
+
+
+  
 
 
 
