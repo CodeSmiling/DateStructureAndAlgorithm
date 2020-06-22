@@ -76,6 +76,64 @@ A:使用深度遍历和剪枝算法：
         return res;
 
   ```
+  
+### 机器人的运动范围
+
+题目链接:https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/
+
+解决方案:方案一 采用深度优先遍历(递归)
+
+  (1)递归参数:i, j, si, sj:横坐标,纵坐标,横坐标的和,纵坐标的和
+  
+  (2)终止条件:索引越界,坐标和大于k,该值已经遍历过
+  
+  (3)递归工作:标记当前单元格,推进下一个单元格
+  
+  (4)回溯参数:1 + 向下递归寻找到的解决方法个数 + 向右递归寻找到的解决方法个数
+  
+  ```java
+  class Solution {
+    boolean[][] visit;
+    int rowLength;
+    int colLength;
+    int k;
+    public int movingCount(int m, int n, int k) {
+        rowLength = m;
+        colLength = n;
+        this.k = k;
+        visit = new boolean[m][n];
+        return dfs(0,0,0,0);
+    }
+    public int dfs(int i, int j, int si, int sj){
+        //终止条件
+        if(i >= rowLength || j >= colLength || si + sj > k || visit[i][j]){
+            return 0;
+        }
+        visit[i][j] = true;
+        //递推条件
+        return 1 + dfs(i + 1, j, sum(i + 1), sum(j)) + dfs(i, j + 1, sum(i), sum(j + 1));  
+    }
+    public int sum(int i){
+        int sumOfNum = 0;
+        while(i > 0){
+        sumOfNum += i % 10;
+        i = i / 10;
+        }
+        
+        return sumOfNum;
+    }
+}
+  ```
+  
+
+
+
+
+
+
+
+
+
 Q:题目链接：https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/
   
 A:1.根据题意，需要知道二叉树前后顺序，所以考虑中序遍历。
