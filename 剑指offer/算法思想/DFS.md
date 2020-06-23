@@ -7,6 +7,7 @@
 * [矩阵中的路径](#矩阵中的路径)
 * [树的子结构](#树的子结构)
 * [二叉搜索树与双向链表](#二叉搜索树与双向链表)
+* [重建二叉树](#重建二叉树)
 ---
 ### 二叉树的镜像
 Q:请完成一个函数，输入一个二叉树，该函数输出它的镜像。
@@ -180,8 +181,10 @@ class Solution{
 
 Q:题目链接：https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/
   
-A:1.根据题意，需要知道二叉树前后顺序，所以考虑中序遍历。
-    2.中序遍历之后，需要改变两个节点的连接顺序
+A: 1.根据题意，需要知道二叉树前后顺序，所以考虑中序遍历。
+    
+   2.中序遍历之后，需要改变两个节点的连接顺序
+    
  ```java
  class Solution{
     Node pre,cur head;
@@ -207,6 +210,57 @@ A:1.根据题意，需要知道二叉树前后顺序，所以考虑中序遍历�
         dfs(cur.right);    
     }
 }
-
  ```
-  
+ 问题描述: 输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+ 
+例如，给出
+
+前序遍历 preorder = [3,9,20,15,7]
+
+中序遍历 inorder = [9,3,15,20,7]
+
+返回如下的二叉树：
+
+        3
+       / \
+      9  20
+        /  \
+       15   7
+       
+解决思路：
+
+    1.根据前序遍历确定根节点的root值
+    2.根据root值将中序遍历数组分为两部分(左|根|右)
+    3.然后在根据中序遍历数组去前序遍历再次划分
+    递归参数：前序遍历节点值的索引：pre_root,左边数组的索引：in_left,右边数组的索引：in_right
+```java
+class Solution{
+    int[] po;
+    HashMap<Integer,Integer> dic = new HashMap<>();
+    public TreeNode buildTree(int[] preorder, int[] inorder){
+        int length = preorder.length;
+        po = preorder;
+        for(int i = 0; i < length; i++){
+            dic.put(preorder[i], i);
+        }
+        return recur(0, 0, length - 1);
+    }
+    //递归遍历的参数
+    public TreeNode recur(int pre_root, int in_left, int in_right){
+        //终止条件
+        if(in_left > in_right){
+            return null;
+        }
+        //递推工作
+            //1.建立根节点root(从索引中取出)
+            TreeNode root = new TreeNode(po[pre_root]);
+            //将中序遍历数组划分两部分(获取当前节点的索引)
+            int i = dic.get(po[pre_root]);
+            //左边部分(当前节点值+1, 左边界in_left, 有边界i - 1)
+            root.left = recur(pre_root + 1, in_left, i - 1);
+            //右边部分(当前节点值+1+左边界长度, 左边界i, 有边界in_right)
+            root.right = recur(pre_root + 1 + i - in_left, i + 1, in_right);
+            return root;
+    }   
+}
+```
