@@ -4,6 +4,6 @@
   笔记总结很重要，能力提升步步高
  ## 目录
  
-* ### [leetcode](#leetcode)
+* [leetcode](#leetcode)
 
-* ### [剑指offer](#剑指offer)
+* [剑指offer](#剑指offer)
