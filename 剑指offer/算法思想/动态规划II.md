@@ -222,3 +222,49 @@ class Solution {
     }
 }
 ```
+### 正则表达式的匹配
+- 题目链接:https://leetcode-cn.com/problems/regular-expression-matching/
+- 思路:动态规划
+  - 如果p[j] != '*'
+    - if(s[i] == s[j] || s[j] == '.') dp[i][j] = dp[i - 1][j - 1]
+    - dp[i][j] = false;
+  - 如果dp[j] == '*'
+    - 选择不匹配
+      dp[i][j] |= dp[i][j - 2]; 
+    - 选择匹配
+      dp[i][j] |= dp[i - 1][j];   
+    
+```java
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int m = s.length();
+		int n = p.length();
+		boolean[][] dp = new boolean[m + 1][n + 1]; 
+		for(int i = 0; i <= m; i++){
+			for(int j = 0; j <= n; j++){
+				if(j == 0){
+					dp[i][j] = i==0;
+				}
+				else{
+					if(p.charAt(j - 1) != '*'){
+						if(i > 0 && (s.charAt(i - 1) == p.charAt(j - 1) || p.charAt(j - 1) == '.')){
+							dp[i][j] = dp[i - 1][j - 1];
+						}
+					}
+					else{
+						//不看
+						if(j >= 2){
+							dp[i][j] |= dp[i][j - 2];
+						}
+						//看
+						if(i >= 1 && j >= 2 && (s.charAt(i - 1) == p.charAt(j - 2) || p.charAt(j - 2) == '.')){
+							dp[i][j] |= dp[i - 1][j];
+						}
+					}
+				}
+			}
+		}
+		return dp[m][n];
+    }
+}
+```
