@@ -5,5 +5,8 @@
  ## 目录
  
 * ### [leetcode](#leetcode)
+  * #### 数据结构
+    * [哈希表](./leetcode/数据结构/哈希表.md)
+  * #### 算法思想
 
 * ### [剑指offer](#剑指offer)
